@@ -14,10 +14,19 @@ Execute:
 
 ## How To Use:
 1. Download the csv file on aks page
+![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/export_csv.png?raw=true)
+
 2. Put the file (AKS_HELPER_FILE) in a folder (AKS_HELPER_PATH)
+![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/save_csv.png?raw=true)
+
 3. Execute the script ({sys.argv[0]})
+![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/execute_script.png?raw=true)
+
 4. Select the desired cluster (If None, the kubeconfig will be cleaned)
+![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/script_result.png?raw=true)
+
 5. Use kubectl
+![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/kubectl.png?raw=true)
 
 ## Envarioment Variables:
 - **AKS_HELPER_PATH**: Path to the aks csv file (default: $HOME/.kube)
