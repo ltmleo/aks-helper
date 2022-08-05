@@ -20,7 +20,7 @@ Execute:
 2. Put the file (AKS_HELPER_FILE) in a folder (AKS_HELPER_PATH)
 ![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/save_csv.png?raw=true)
 
-3. Execute the script (./script or aks, --help to show help)
+3. Execute the script (./script or aks, --help to show help)                              
 ![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/execute_script.png?raw=true)
 
 1. Select the desired cluster (If None, the kubeconfig will be cleaned)
