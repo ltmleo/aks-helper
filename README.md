@@ -4,6 +4,7 @@ Simple python3 script to help setting aks connection with kubectl using az-cli (
 ## Dependencies
 - python >= 3.8
 - pip >= 22.2.2
+- azure-cli = 2.39.0
 
 Execute:
 ```pip install -r requirements.txt``` 
