@@ -20,10 +20,10 @@ Execute:
 2. Put the file (AKS_HELPER_FILE) in a folder (AKS_HELPER_PATH)
 ![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/save_csv.png?raw=true)
 
-3. Execute the script ({sys.argv[0]})
+3. Execute the script (./script or aks, --help to show help)
 ![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/execute_script.png?raw=true)
 
-4. Select the desired cluster (If None, the kubeconfig will be cleaned)
+1. Select the desired cluster (If None, the kubeconfig will be cleaned)
 ![alt text](https://github.com/ltmleo/aks-helper/blob/main/.images/script_result.png?raw=true)
 
 5. Use kubectl
