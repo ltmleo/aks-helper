@@ -20,10 +20,10 @@ Execute:
 5. Use kubectl
 
 ## Envarioment Variables:
-**AKS_HELPER_PATH**: Path to the aks csv file (default: $HOME/.kube)
-**AKS_HELPER_FILE**: Name of the aks csv file (default: AzuremanagedClusters.csv)
-**AKS_CACHE_PATH**:  Directory to save the cached json file (default: /tmp)
-**AKS_CACHE_FILE**: Name to save the cached json file (default: aksHelper.json)
+- **AKS_HELPER_PATH**: Path to the aks csv file (default: $HOME/.kube)
+- **AKS_HELPER_FILE**: Name of the aks csv file (default: AzuremanagedClusters.csv)
+- **AKS_CACHE_PATH**:  Directory to save the cached json file (default: /tmp)
+- **AKS_CACHE_FILE**: Name to save the cached json file (default: aksHelper.json)
 
 ## Sugestions
 
