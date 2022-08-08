@@ -41,6 +41,10 @@ def clean_kubeconfig():
     print("Cleaning kubeconfig")
     os.system(f"echo '' > {HOME}/.kube/config")
 
+def get_options(clusters_list, filter_arg):
+    return ["None"] + [cluster for cluster in clusters_list if filter_arg in cluster]
+    
+
 def print_help(exit_code):
     print(f"""
 {sys.argv[0]} [options]
@@ -48,11 +52,12 @@ def print_help(exit_code):
 options:
     --clean-cache: remove json cached file generatade based on AKS csv file
     --help: print help
+    <cluster string>: string in cluster name to filter results
 
 How To Use:
     1. Download the csv file on aks page
     2. Put the file (AKS_HELPER_FILE) in a folder (AKS_HELPER_PATH)
-    3. Execute the script ({sys.argv[0]})
+    3. Execute the script ({sys.argv[0]}) [options]
     4. Select the desired cluster (If None, the kubeconfig will be cleaned)
     5. Use kubectl
 
@@ -69,6 +74,7 @@ Envarioment Variables:
 if __name__ == "__main__":
     cache_file = f"{AKS_CACHE_PATH}/{AKS_CACHE_FILE}"
     argv = sys.argv[1] if len(sys.argv) > 1 else ""
+    filter_arg = argv if "--" not in argv else ""
     if argv == "--help":
         print_help(0)
     if (not os.path.exists(cache_file) or argv == "--clean-cache"):
@@ -78,7 +84,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error: {e}")
         print_help(1)
-    answers = questionary.form(cluster = questionary.select("Select a cluster", choices=["None"] + list(AKS_CLUSTERS.keys()))).ask()
+    answers = questionary.form(cluster = questionary.select("Select a cluster", choices=get_options(list(AKS_CLUSTERS.keys()), filter_arg))).ask()
     cluster_name = answers["cluster"]
     if cluster_name != "None":
         set_subscription(cluster_name)
