@@ -96,7 +96,7 @@ if __name__ == "__main__":
     
     if cluster_name != "None" and not os.path.exists(kubeconfig):
         set_subscription(cluster_name)
-        set_kubeconfig(cluster_name)
+        set_kubeconfig(cluster_name, kubeconfig)
         export_kubeconfig(kubeconfig)
     elif os.path.exists(kubeconfig):
         export_kubeconfig(kubeconfig)
