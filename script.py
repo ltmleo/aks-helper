@@ -7,6 +7,7 @@ AKS_HELPER_PATH = os.getenv('AKS_HELPER_PATH', f"{HOME}/.kube")
 AKS_HELPER_FILE = os.getenv('AKS_HELPER_FILE', "AzuremanagedClusters.csv")
 AKS_CACHE_PATH = os.getenv('AKS_CACHE_PATH', "/tmp")
 AKS_CACHE_FILE = os.getenv("AKS_CACHE_FILE", 'aksHelper.json')
+SHELL = os.getenv("SHELL", '/usr/bin/zsh')
 
 def _csv_to_json(csv_path):
     aks_clusters = {}
@@ -34,12 +35,17 @@ def load_json(cache_file):
 def set_subscription(cluster_name):
     os.system(f"az account set --subscription \"{AKS_CLUSTERS[cluster_name]['SUBSCRIPTION']}\"")
 
-def set_kubeconfig(cluster_name):
-    os.system(f"az aks get-credentials --name {cluster_name} --resource-group {AKS_CLUSTERS[cluster_name]['RESOURCE GROUP']} --admin")
+def set_kubeconfig(cluster_name, kubeconfig):
+    print(f"Seting {kubeconfig}")
+    os.system(f"az aks get-credentials --name {cluster_name} --resource-group {AKS_CLUSTERS[cluster_name]['RESOURCE GROUP']} --admin --file {kubeconfig}")
+    
+def export_kubeconfig(kubeconfig):
+    os.system(f"export KUBECONFIG={kubeconfig} && {SHELL}")
 
-def clean_kubeconfig():
+
+def clean_kubeconfig(kubeconfig):
     print("Cleaning kubeconfig")
-    os.system(f"echo '' > {HOME}/.kube/config")
+    os.system(f"rm {kubeconfig}")
 
 def get_options(clusters_list, filter_arg):
     return ["None"] + [cluster for cluster in clusters_list if filter_arg in cluster]
@@ -86,8 +92,13 @@ if __name__ == "__main__":
         print_help(1)
     answers = questionary.form(cluster = questionary.select("Select a cluster", choices=get_options(list(AKS_CLUSTERS.keys()), filter_arg))).ask()
     cluster_name = answers["cluster"]
-    if cluster_name != "None":
+    kubeconfig = f"{AKS_HELPER_PATH}/{cluster_name}.yaml"
+    
+    if cluster_name != "None" and not os.path.exists(kubeconfig):
         set_subscription(cluster_name)
         set_kubeconfig(cluster_name)
+        export_kubeconfig(kubeconfig)
+    elif os.path.exists(kubeconfig):
+        export_kubeconfig(kubeconfig)
     else:
-        clean_kubeconfig()
+        clean_kubeconfig(kubeconfig)
