@@ -35,9 +35,9 @@ def load_json(cache_file):
 def set_subscription(cluster_name):
     os.system(f"az account set --subscription \"{AKS_CLUSTERS[cluster_name]['SUBSCRIPTION']}\"")
 
-def set_kubeconfig(cluster_name, kubeconfig):
+def set_kubeconfig(cluster_name, kubeconfig, args):
     print(f"Seting {kubeconfig}")
-    os.system(f"az aks get-credentials --name {cluster_name} --resource-group {AKS_CLUSTERS[cluster_name]['RESOURCE GROUP']} --admin --file {kubeconfig}")
+    os.system(f"az aks get-credentials --name {cluster_name} --resource-group {AKS_CLUSTERS[cluster_name]['RESOURCE GROUP']} --file {kubeconfig} {args}")
     
 def export_kubeconfig(kubeconfig):
     os.system(f"export KUBECONFIG={kubeconfig} && {SHELL}")
@@ -79,8 +79,12 @@ Envarioment Variables:
 
 if __name__ == "__main__":
     cache_file = f"{AKS_CACHE_PATH}/{AKS_CACHE_FILE}"
+    set_kubeconfig_args = "--admin"
     argv = sys.argv[1] if len(sys.argv) > 1 else ""
     filter_arg = argv if "--" not in argv else ""
+    if "--admin=false" in sys.argv:
+        print("Disabling --admin credentials")
+        set_kubeconfig_args = "--public-fqdn"
     if argv == "--help":
         print_help(0)
     if (not os.path.exists(cache_file) or argv == "--clean-cache"):
@@ -96,7 +100,7 @@ if __name__ == "__main__":
     
     if cluster_name != "None" and not os.path.exists(kubeconfig):
         set_subscription(cluster_name)
-        set_kubeconfig(cluster_name, kubeconfig)
+        set_kubeconfig(cluster_name, kubeconfig, set_kubeconfig_args)
         export_kubeconfig(kubeconfig)
     elif os.path.exists(kubeconfig):
         export_kubeconfig(kubeconfig)
