@@ -38,6 +38,6 @@ Execute:
 ## Sugestions
 
 Move it to bin folder:
-```sudo cp -rf script.py /usr/bin/aks```
+```sudo ln -s ${PWD}/script.py /usr/local/bin/aks```
 
-Colaborate improving this script :)
+Collaborate improving this script :)
