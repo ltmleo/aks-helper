@@ -95,7 +95,7 @@ if __name__ == "__main__":
     log.basicConfig(level=_get_log_level(), format='%(asctime)s - %(levelname)s - %(message)s')
     cache_file = f"{AKS_CACHE_PATH}/{AKS_CACHE_FILE}"
     csv_file = f"{AKS_HELPER_PATH}/{AKS_HELPER_FILE}"
-    set_kubeconfig_args = "--admin"
+    set_kubeconfig_args = ""
     argv = sys.argv[1] if len(sys.argv) > 1 else ""
     if argv == AKS_SECOND_TENANT_ALIAS:
         cache_file = f"{AKS_CACHE_PATH}/{AKS_SECOND_TENANT_ALIAS}-{AKS_CACHE_FILE}"
@@ -103,9 +103,12 @@ if __name__ == "__main__":
         argv = sys.argv[2] if len(sys.argv) > 2 else ""
     print(cache_file, csv_file)
     filter_arg = argv if "--" not in argv else ""
-    if "--admin=false" in sys.argv:
-        print("Disabling --admin credentials")
-        set_kubeconfig_args = "--public-fqdn"
+    if "--admin" in sys.argv:
+        log.info("Enabling --admin credentials")
+        set_kubeconfig_args += " --admin"
+    if "--public-fqdn" in sys.argv:
+        log.info("Enabling --public-fqdn credentials")
+        set_kubeconfig_args +=  " --public-fqdn"
     if "--help" in sys.argv:
         print_help(0)
     if (not os.path.exists(cache_file) or argv == "--clean-cache"):
